@@ -1,0 +1,48 @@
+import Head from "@/components/meta/Head";
+
+import { getBaseUrl } from "@/helpers/url";
+
+import IndexContents from "@/contents/index";
+
+function Index() {
+  const baseUrl = getBaseUrl();
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "蠢卷栖萤",
+    description:
+      "记录日常学习与开发中的点滴收获。分享编程实践、学习笔记和个人感悟，希望与同行共同进步，一起探索技术世界。",
+    url: "https://example.com/",
+    publisher: {
+      "@type": "Person",
+      name: "蠢卷栖萤",
+      url: "https://example.com/about-me",
+    },
+    author: {
+      "@type": "Person",
+      name: "蠢卷栖萤",
+      url: "https://example.com/about-me",
+    },
+    sameAs: [],
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <Head
+        title="蠢卷栖萤"
+        description="蠢卷栖萤，记录日常学习与开发中的点滴收获。分享编程实践、学习笔记和个人感悟，希望与同行共同进步，一起探索技术世界。"
+        ogImage={`${baseUrl}/assets/images/og-image.png`}
+        overrideTitle
+      />
+      <IndexContents />
+    </>
+  );
+}
+
+export default Index;

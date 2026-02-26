@@ -1,0 +1,397 @@
+---
+title: EPUB 添加全面屏封面
+date: "2026-02-25"
+lang: zh
+tags: [Sigil, 教程]
+category: epub教程
+description: 详细介绍如何为 EPUB 电子书制作全面屏封面，适配手机、Kindle、多看等不同阅读器。
+cover: /assets/images/epub-fullscreen-cover.jpg
+layout: Post
+---
+
+<style>{`
+/* =========================================
+   主题：清雅宋韵 · 日夜双色
+   色彩取自中国传统色谱
+   ========================================= */
+
+#wemd {
+  background-color: transparent;
+  padding: 20px 0;
+  max-width: 100%;
+  margin: 0 auto;
+  font-family: "Songti SC", "SimSun", "STSong", "Georgia", serif;
+  color: #1a1a1a;
+  line-height: 1.9;
+  letter-spacing: 0.05em;
+  text-align: justify;
+  word-break: break-all;
+}
+#wemd p { margin: 22px 0; font-size: 16px; color: #2b2b2b; }
+#wemd h1 {
+  margin-top: 50px; margin-bottom: 40px; text-align: center;
+  font-weight: bold; font-size: 24px; color: #2d4e44;
+  border-top: 3px double #2d4e44; border-bottom: 1px solid #2d4e44;
+  padding: 20px 0; line-height: 1.4;
+}
+#wemd h1 .prefix, #wemd h1 .suffix { display: none; }
+#wemd h2 {
+  margin-top: 45px; margin-bottom: 25px; text-align: center;
+  font-size: 19px; font-weight: bold; color: #2d4e44;
+  width: fit-content; margin-left: auto; margin-right: auto; position: relative;
+}
+
+
+
+#wemd .mdx-heading__anchor {
+  position: absolute; left: -2.5rem; top: 50%; transform: translateY(-50%);
+  border: none !important; background: transparent !important; color: #8da399;
+}
+#wemd h2::before { content: "「 "; color: #8da399; font-weight: normal; margin-right: 4px; }
+#wemd h2::after { content: " 」"; color: #8da399; font-weight: normal; margin-left: 4px; }
+#wemd h2 .prefix, #wemd h2 .suffix { display: none; }
+#wemd h3 {
+  margin-top: 35px; margin-bottom: 15px; font-size: 17px; font-weight: bold;
+  color: #4a4035; padding-left: 12px; border-left: 4px solid #b5a08e; line-height: 1.2;
+}
+#wemd h3 .prefix, #wemd h3 .suffix { display: none; }
+#wemd h4, #wemd h5, #wemd h6 { margin-top: 25px; margin-bottom: 15px; font-weight: bold; color: #2d4e44; font-size: 16px; }
+#wemd ul, #wemd ol { margin: 16px 0; padding-left: 25px; color: #3b3b3b; }
+#wemd ul li { list-style-type: circle; margin-bottom: 8px; }
+#wemd ol li { color: #2d4e44; font-weight: bold; margin-bottom: 8px; }
+#wemd ol li section { color: #2b2b2b; font-weight: normal; }
+#wemd strong { color: #c04851; font-weight: bold; margin: 0 2px; }
+#wemd em { color: #5d7e6e; font-style: italic; }
+#wemd a { color: #2d4e44; border-bottom: 1px dashed #8da399; text-decoration: none; font-weight: bold; }
+#wemd del { color: #999; }
+#wemd blockquote {
+  margin: 25px 10px; padding: 16px 20px; background: rgba(45, 78, 68, 0.04);
+  border: 1px dashed #a4bba8; border-left: 4px solid #a4bba8; color: #555;
+  font-style: italic; font-size: 15px;
+}
+#wemd pre { margin: 20px 0; }
+#wemd pre code.hljs {
+  display: block; overflow-x: auto; padding: 15px; background: #f7f4ef; color: #3b3b3b;
+  font-family: "Menlo", "Courier New", monospace; font-size: 13px;
+  border: 1px solid #e0d5c5; border-radius: 4px; line-height: 1.6;
+}
+#wemd .hljs-keyword, #wemd .hljs-selector-tag { color: #2d4e44; font-weight: bold; }
+#wemd .hljs-string, #wemd .hljs-attr { color: #c04851; }
+#wemd .hljs-number { color: #b78d12; }
+#wemd .hljs-comment { color: #999; font-style: italic; }
+#wemd .hljs-built_in, #wemd .hljs-title { color: #1661ab; }
+#wemd p code, #wemd li code {
+  font-family: "Menlo", "Courier New", monospace; font-size: 14px; color: #c04851;
+  background-color: rgba(192, 72, 81, 0.06); padding: 2px 5px; border-radius: 3px; margin: 0 3px;
+}
+#wemd img { display: block; margin: 30px auto; max-width: 100%; border-radius: 2px; border: 1px solid rgba(0,0,0,0.08); box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+#wemd figcaption { text-align: center; color: #888; font-size: 13px; margin-top: 10px; }
+#wemd table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px; }
+#wemd table th { background-color: rgba(45,78,68,0.06); border: 1px solid #b5a08e; padding: 8px; color: #2d4e44; font-weight: bold; }
+#wemd table td { border: 1px solid #d4c8b8; padding: 8px; color: #3b3b3b; }
+#wemd hr { border: 0; height: 1px; background: #b5a08e; margin: 40px auto; width: 50%; opacity: 0.5; }
+
+
+
+/* ===== 夜间模式 ===== */
+.dark #wemd { color: #d6e4e2; }
+.dark #wemd p { color: #c8c2b6; }
+.dark #wemd h1 { color: #c0d8d5; border-top-color: #5a8f85; border-bottom-color: #5a8f85; }
+.dark #wemd h2 { color: #c0d8d5; }
+.dark #wemd .mdx-heading__anchor { color: #5a8f85; }
+.dark #wemd h2::before, .dark #wemd h2::after { color: #5a8f85; }
+.dark #wemd h3 { color: #c8c2b6; border-left-color: #7a6e5e; }
+.dark #wemd h4, .dark #wemd h5, .dark #wemd h6 { color: #c0d8d5; }
+.dark #wemd ul, .dark #wemd ol { color: #b8b2a6; }
+.dark #wemd ol li { color: #8fbcb0; }
+.dark #wemd ol li section { color: #c8c2b6; }
+.dark #wemd strong { color: #f09898; }
+.dark #wemd em { color: #8fbcb0; }
+.dark #wemd a { color: #8fbcb0; border-bottom-color: #5a8f85; }
+.dark #wemd del { color: #666; }
+.dark #wemd blockquote { background: rgba(192,216,213,0.05); border-color: #4a7a70; border-left-color: #5a8f85; color: #a8a298; }
+.dark #wemd pre code.hljs { background: #1c2333; color: #c8c2b6; border-color: #2a3548; }
+.dark #wemd .hljs-keyword, .dark #wemd .hljs-selector-tag { color: #8fbcb0; }
+.dark #wemd .hljs-string, .dark #wemd .hljs-attr { color: #f09898; }
+.dark #wemd .hljs-number { color: #e8c56d; }
+.dark #wemd .hljs-comment { color: #666; }
+.dark #wemd .hljs-built_in, .dark #wemd .hljs-title { color: #6fa8dc; }
+.dark #wemd p code, .dark #wemd li code { color: #f09898; background-color: rgba(240,152,152,0.1); }
+.dark #wemd img { border-color: rgba(255,255,255,0.08); box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+.dark #wemd figcaption { color: #777; }
+.dark #wemd table th { background-color: rgba(143,188,176,0.08); border-color: #4a5a52; color: #c0d8d5; }
+.dark #wemd table td { border-color: #3a4a42; color: #b8b2a6; }
+.dark #wemd hr { background: #5a5040; opacity: 0.6; }
+`}</style>
+
+<div id="wemd">
+
+## 为什么需要全面屏封面？
+
+默认情况下，Sigil 生成的封面使用 SVG 包裹 `<image>` 标签的方式显示封面图片。这种方式在大多数阅读器上能正常工作，但存在一些问题：
+
+- 封面图片周围可能出现白边或黑边
+- 无法真正铺满整个屏幕，尤其在手机全面屏设备上
+- 不同阅读器对 SVG 封面的渲染效果差异较大
+
+全面屏封面的目标是让封面图片完全覆盖阅读器的整个显示区域，没有任何边距和留白，带来更沉浸的视觉体验。
+
+## 封面图片尺寸参考
+
+不同设备和场景需要不同尺寸的封面图片：
+
+| 用途           | 宽 × 高（px） | 说明                     |
+| -------------- | ------------- | ------------------------ |
+| 书架封面       | 1525 × 2140   | 阅读器书架展示用，最常见 |
+| Kindle 封面    | 1536 × 2048   | 适配 Kindle 设备         |
+| 手机全面屏封面 | 1080 × 2400   | 适配手机竖屏全面屏显示   |
+| 平板封面       | 1536 × 2048   | 适配 iPad 等平板设备     |
+
+> 如果你的电子书需要同时适配多种设备，建议准备多张不同尺寸的封面图片，在 EPUB 中分别引用。
+
+## 方案一：手机全面屏封面（CSS 背景图方式）
+
+这是适用范围最广的方案，通过 CSS `background-image` 将封面图片设为页面背景，实现真正的全屏铺满效果。大部分主流阅读器（阅微、Apple Books、微信读书等）都支持这种方式。
+
+### 原理
+
+不使用 `<img>` 标签插入图片，而是将封面图片作为 `<body>` 的 CSS 背景。配合 `background-size: cover` 属性，图片会自动缩放并裁剪以铺满整个视口，不留任何空白。
+
+### 实现步骤
+
+**1. 准备封面图片**
+
+- 尺寸：1080 × 2400 px（手机全面屏比例）
+- 格式：PNG 或 JPG
+- 将图片放入 EPUB 项目的 `Images` 文件夹，命名为 `cover~slim.png`
+
+> 文件名中的 `~slim` 是一种命名约定，表示这是竖屏/窄版封面。你也可以用其他名称，只要 CSS 中路径对应即可。
+
+**2. 创建封面页 XHTML**
+
+在 Sigil 的 `Text` 文件夹中新建一个 XHTML 文件（如 `cover.xhtml`），内容如下：
+
+```html
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>封面</title>
+    <style>
+      /* 基础视口设置 */
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+    </style>
+    <link href="../Styles/main.css" type="text/css" rel="stylesheet" />
+  </head>
+  <body class="cover-page">
+    <div class="fm">
+      <p>&nbsp;</p>
+    </div>
+    <h2 class="none">封面</h2>
+  </body>
+</html>
+```
+
+**代码解析：**
+
+- `html, body` 设置高度 100% 并去除默认边距，确保页面占满整个视口
+- `overflow: hidden` 防止出现滚动条
+- `<body class="cover-page">` 通过 class 关联外部 CSS 中的背景图样式
+- `<div class="fm"><p>&nbsp;</p></div>` 是一个占位元素，包含一个不可见的空格字符。部分阅读器要求页面有实际内容才能正常渲染，这个空白段落确保页面不会被跳过
+- `<h2 class="none">封面</h2>` 隐藏的标题，用于目录生成时标识这是封面页
+
+**3. 编写 CSS 样式**
+
+在 `Styles/main.css` 中添加以下样式：
+
+```css
+/* ===== 封面页样式 ===== */
+.cover-page {
+  background-image: url("../Images/cover~slim.png"); /* 封面图路径 */
+  background-repeat: no-repeat; /* 不重复 */
+  background-size: cover; /* 满铺：自动缩放裁剪 */
+  background-position: center; /* 居中显示 */
+  width: 100%; /* 全宽 */
+  min-height: 100%; /* 最小全高 */
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+/* 隐藏占位文字 */
+.fm p {
+  color: rgba(255, 255, 255, 0); /* 完全透明 */
+}
+
+/* 隐藏辅助标题 */
+.none {
+  display: none;
+}
+```
+
+**关键属性说明：**
+
+| 属性                          | 作用                                         |
+| ----------------------------- | -------------------------------------------- |
+| `background-size: cover`      | 图片等比缩放，确保完全覆盖容器，可能裁剪边缘 |
+| `background-position: center` | 裁剪时保留图片中心区域                       |
+| `min-height: 100%`            | 确保背景区域至少占满一整页                   |
+| `color: rgba(255,255,255,0)`  | 让占位文字完全透明，不影响视觉效果           |
+
+> 注意 CSS 中图片路径是相对于 CSS 文件位置的。如果你的 CSS 在 `Styles/` 目录下，图片在 `Images/` 目录下，路径应该是 `../Images/cover~slim.png`。
+
+### 兼容性
+
+| 阅读器      | 支持情况                           |
+| ----------- | ---------------------------------- |
+| 阅微        | ✅ 完美支持                        |
+| Apple Books | ✅ 完美支持                        |
+| 微信读书    | ✅ 支持                            |
+| 多看阅读    | ⚠️ 部分支持，较新 CSS 属性支持有限 |
+| Kindle      | ❌ 不支持 CSS 背景图，需要用方案二 |
+
+## 方案二：Kindle 封面（IMG 标签方式）
+
+Kindle 设备不支持 CSS `background-image`，需要使用传统的 `<img>` 标签方式。通过 Flexbox 布局让图片在页面中居中并尽可能大地显示。
+
+### 实现步骤
+
+**1. 准备封面图片**
+
+- 尺寸：1536 × 2048 px（Kindle 推荐尺寸）
+- 格式：PNG 或 JPG
+- 将图片放入 `Images` 文件夹，命名为 `cover.png`
+
+**2. 创建封面页 XHTML**
+
+```html
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>封面</title>
+    <link href="../Styles/main.css" type="text/css" rel="stylesheet" />
+  </head>
+  <body class="epub-cover">
+    <div class="cover-image-container">
+      <img alt="cover" src="../Images/cover.png" />
+    </div>
+  </body>
+</html>
+```
+
+**3. 编写 CSS 样式**
+
+```css
+/* ===== Kindle 封面样式 ===== */
+body.epub-cover {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  background-color: #000; /* 黑色背景，填充图片未覆盖区域 */
+}
+
+body.epub-cover .cover-image-container {
+  width: 100%;
+  height: 100vh; /* 占满视口高度 */
+  display: flex;
+  justify-content: center; /* 水平居中 */
+  align-items: center; /* 垂直居中 */
+}
+
+body.epub-cover .cover-image-container img {
+  max-width: 100%;
+  max-height: 95vh; /* 最大高度留 5% 余量 */
+  height: auto;
+  width: auto;
+  margin: auto;
+  display: block;
+}
+```
+
+**关键属性说明：**
+
+| 属性                       | 作用                                                               |
+| -------------------------- | ------------------------------------------------------------------ |
+| `background-color: #000`   | 黑色背景，当图片比例与屏幕不完全匹配时，空白区域显示为黑色而非白色 |
+| `height: 100vh`            | 容器占满整个视口高度                                               |
+| `display: flex` + 居中属性 | 让图片在容器中水平和垂直居中                                       |
+| `max-height: 95vh`         | 图片最大高度为视口的 95%，留一点余量防止溢出                       |
+
+> 这种方式不会裁剪图片，而是完整显示。如果图片比例与屏幕不同，会在边缘出现黑色填充条。
+
+## 方案三：多看阅读专属全屏封面
+
+多看阅读扩展了 EPUB 标准的 `<spine>` 属性，提供了一种私有的全屏封面方案。这种方式只在多看阅读和适配了多看私有代码的软件中生效，未适配的阅读器会忽略这个属性。
+
+### 实现方法
+
+打开 EPUB 项目中的 `content.opf` 文件（在 Sigil 的书籍浏览器中可以找到），找到 `<spine>` 部分。
+
+在封面页对应的 `<itemref>` 标签中添加 `properties="duokan-page-fullscreen"` 属性：
+
+```xml
+<spine toc="ncx">
+  <itemref idref="cover.xhtml" properties="duokan-page-fullscreen"/>
+  <itemref idref="chapter01.xhtml"/>
+  <itemref idref="chapter02.xhtml"/>
+  <!-- 其他章节 -->
+</spine>
+```
+
+其中 `idref` 的值要与 `<manifest>` 中封面文件的 `id` 一致。例如如果你的 manifest 中是：
+
+```xml
+<item id="cover.xhtml" href="Text/cover.xhtml" media-type="application/xhtml+xml"/>
+```
+
+那么 `itemref` 中的 `idref` 就应该是 `cover.xhtml`。
+
+> 这种方式只在多看阅读和适配了多看私有代码的软件中生效，未适配的阅读器会忽略这个属性。
+
+## 多方案共存：同时适配所有设备
+
+如果你希望一本 EPUB 同时适配手机、Kindle 和多看，可以这样组织：
+
+**1. 准备两张封面图片：**
+
+- `cover~slim.png`（1080 × 2400）— 手机全面屏用
+- `cover.png`（1536 × 2048）— Kindle / 书架用
+
+**2. 使用方案一的 XHTML 和 CSS 作为默认封面页**
+
+大部分阅读器都能正确渲染 CSS 背景图方式。
+
+**3. 在 `content.opf` 的 `<metadata>` 中声明封面图片：**
+
+```xml
+<meta name="cover" content="cover-image"/>
+```
+
+并在 `<manifest>` 中标记：
+
+```xml
+<item id="cover-image" href="Images/cover.png" media-type="image/png" properties="cover-image"/>
+```
+
+这样 Kindle 等不支持 CSS 背景图的设备会使用 `cover.png` 作为封面。
+
+**4. 在 `<spine>` 中为多看添加全屏属性：**
+
+```xml
+<itemref idref="cover.xhtml" properties="duokan-page-fullscreen"/>
+```
+
+这样一本 EPUB 就能在不同阅读器上都获得最佳的封面显示效果。
+
+### 搞定！
+
+现在你已经掌握了三种全面屏封面方案，可以根据目标阅读器选择合适的方式，也可以多方案共存实现全平台适配。
+
+</div>

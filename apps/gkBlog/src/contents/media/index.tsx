@@ -1,0 +1,345 @@
+import Image from "next/image";
+import { useRouter } from "next/router";
+import { useEffect, useRef, useState } from "react";
+
+import { bookTitles } from "@/constants/books";
+
+interface Item {
+  title: string;
+  cover_image_url: string;
+  rating: number;
+  uuid: string;
+  category: string;
+  download_url: string;
+  tablet_download_url?: string;
+  kindle_download_url?: string;
+  password?: string;
+}
+
+interface MediaData {
+  shelf_type: string;
+  visibility: number;
+  item: Item;
+}
+
+function MediaContents() {
+  const [mediaData, setMediaData] = useState<MediaData[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [filteredData, setFilteredData] = useState<MediaData[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [activeCategory, setActiveCategory] = useState<string>("book");
+  // 分页状态
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const movieContainerRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+
+  // 处理图书点击事件，跳转到详情页面
+  const handleBookClick = (bookId: string) => {
+    router.push(`/book/${bookId}`);
+  };
+
+  useEffect(() => {
+    // 从URL参数获取默认分类
+    const urlParams = new URLSearchParams(window.location.search);
+    const categoryFromUrl = urlParams.get("category") || "book";
+    setActiveCategory(categoryFromUrl);
+  }, []);
+
+  useEffect(() => {
+    try {
+      // 创建样本图书数据
+      const sampleBook: MediaData = {
+        shelf_type: "read",
+        visibility: 1,
+        item: {
+          title: "卢克明的偷偷一笑",
+          cover_image_url:
+            "https://your-image-host.example.com/media/book-cover.jpg",
+          rating: 7.5,
+          uuid: "book-1",
+          category: "book",
+          download_url: `https://wwbes.lanzoue.com/iID003d2qf5a`,
+        },
+      };
+
+      // 生成8本图书
+      const books: MediaData[] = Array.from({ length: 8 }, (_, index) => {
+        // 基础图书配置
+        const baseBook = {
+          ...sampleBook,
+          item: {
+            ...sampleBook.item,
+            title: bookTitles[index],
+            uuid: `book-${index + 1}`,
+          },
+        };
+
+        // 为不同图书设置特殊配置
+        if (index === 0) {
+          // 《没有宽恕就没有未来》
+          return {
+            ...baseBook,
+            item: {
+              ...baseBook.item,
+              cover_image_url:
+                "/assets/images/neodb/cover/no-forgiveness-no-future.png",
+              download_url: `https://115cdn.com/s/swfbkgi3h6e?password=0121&#`,
+            },
+          };
+        }
+        if (index === 1) {
+          // 《基督山伯爵 - 大仲马》
+          return {
+            ...baseBook,
+            item: {
+              ...baseBook.item,
+              cover_image_url:
+                "/assets/images/neodb/cover/jidushanbojue-dazhongma.png",
+              download_url: `https://imgbed-80b.pages.dev/file/1768393274151_C-032_基督山伯爵_-_大仲马【手机】.epub`,
+              tablet_download_url: `https://imgbed-80b.pages.dev/file/1768393297589_C-032_基督山伯爵_-_大仲马【平板】.epub`,
+              kindle_download_url: `https://imgbed-80b.pages.dev/file/1768392582744_C-032_基督山伯爵_-_大仲马【Kindle】.epub`,
+            },
+          };
+        }
+        if (index === 2) {
+          // 《咸的玩笑-刘震云》
+          return {
+            ...baseBook,
+            item: {
+              ...baseBook.item,
+              cover_image_url:
+                "/assets/images/neodb/cover/xiandewanxiao-liuzhenyun.png",
+              download_url: `https://wwbes.lanzoue.com/ig25P3fmlhsh`,
+              tablet_download_url: `https://wwbes.lanzoue.com/iR7Kb3fmlhyd`,
+            },
+          };
+        }
+        if (index === 3) {
+          // 《伦敦魔法师·暗黑魔法-维多利亚·舒瓦》
+          return {
+            ...baseBook,
+            item: {
+              ...baseBook.item,
+              cover_image_url:
+                "/assets/images/neodb/cover/lundunmofashi-anheimofa-weiduoliyashuwa.jpg",
+              download_url: `https://wwbes.lanzoue.com/iXYUz3e6hm8b`,
+              tablet_download_url: `https://wwbes.lanzoue.com/iW7NZ3e6hlpc`,
+            },
+          };
+        }
+        if (index === 4) {
+          // 《她的山，她的海-扶华》
+          return {
+            ...baseBook,
+            item: {
+              ...baseBook.item,
+              cover_image_url:
+                "/assets/images/neodb/cover/tashan-tahai-fuhua.jpg",
+              download_url: `https://wwbes.lanzoue.com/ihduM3elfdyb`,
+              tablet_download_url: `https://wwbes.lanzoue.com/izrgk3elfcyf`,
+            },
+          };
+        }
+        if (index === 5) {
+          // 《谢家的短命鬼长命百岁了-怡然》
+          return {
+            ...baseBook,
+            item: {
+              ...baseBook.item,
+              cover_image_url:
+                "/assets/images/neodb/cover/xiejia-duanminggui-changmingbaisui-yi.jpg",
+              download_url: `https://wwbes.lanzoue.com/iJu463dmclzc`,
+              tablet_download_url: `https://wwbes.lanzoue.com/iHpH43dmclsf`,
+            },
+          };
+        }
+        if (index === 6) {
+          // 《史记-司马迁 张大可》
+          return {
+            ...baseBook,
+            item: {
+              ...baseBook.item,
+              cover_image_url:
+                "/assets/images/neodb/cover/shiji-simaqian-zhangdake.png",
+              download_url: `https://wwbes.lanzoue.com/iID003d2qf5a`,
+            },
+          };
+        }
+        // 《东吴100年-握中悬璧》
+        return {
+          ...baseBook,
+          item: {
+            ...baseBook.item,
+            cover_image_url: "/assets/images/neodb/cover/dongwu-100-years.jpg",
+            download_url: `https://wwbes.lanzoue.com/iKG3R3d2v10b`,
+          },
+        };
+      });
+
+      setMediaData(books);
+      setFilteredData(books); // 设置为当前类别数据
+      setCurrentPage(1); // 切换类别时重置到第一页
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, [activeCategory]);
+
+  // 根据搜索查询过滤图书
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setFilteredData(mediaData);
+    } else {
+      const filtered = mediaData.filter((book) =>
+        book.item.title.toLowerCase().includes(searchQuery.toLowerCase()),
+      );
+      setFilteredData(filtered);
+    }
+    setCurrentPage(1); // 搜索时重置到第一页
+  }, [searchQuery, mediaData]);
+
+  // 计算当前页显示的图书
+  const indexOfLastBook = currentPage * 12;
+  const indexOfFirstBook = indexOfLastBook - 12;
+  const currentBooks = filteredData.slice(indexOfFirstBook, indexOfLastBook);
+  const totalPages = Math.ceil(filteredData.length / 12);
+
+  // 处理页码变化
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  if (loading) {
+    return <div>加载中...</div>;
+  }
+
+  if (error) {
+    return <div>发生错误: {error}</div>;
+  }
+
+  return (
+    <div className="content-wrapper py-8">
+      {/* 搜索框 */}
+      <div className="mb-8">
+        <input
+          type="text"
+          placeholder="搜索图书..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          onKeyPress={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              // 回车键按下时滚动到搜索结果顶部
+              window.scrollTo({ top: 0, behavior: "smooth" });
+              // 聚焦到搜索结果容器，提高可访问性
+              if (movieContainerRef.current) {
+                movieContainerRef.current.focus();
+              }
+            }
+          }}
+          className="w-full rounded-2xl border border-gray-300/50 bg-slate-50 px-6 py-4 text-lg focus:border-accent-500 focus:ring-accent-500 dark:border-gray-700/50 dark:bg-slate-900/50"
+        />
+      </div>
+
+      <div
+        ref={movieContainerRef}
+        tabIndex={-1}
+        className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4"
+      >
+        {currentBooks.length > 0 ? (
+          currentBooks.map((media) => (
+            <button
+              key={media.item.uuid}
+              type="button"
+              className="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white transition-all duration-300 hover:border-accent-500 hover:shadow-xl dark:border-slate-800 dark:bg-slate-900"
+              onClick={() => handleBookClick(media.item.uuid)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  handleBookClick(media.item.uuid);
+                }
+              }}
+              tabIndex={0}
+            >
+              <div className="aspect-[2/3] relative w-full overflow-hidden bg-slate-100 shadow-[0_0_2px_rgba(0,0,0,0.5)]">
+                <Image
+                  src={
+                    media.item.cover_image_url.includes("http")
+                      ? media.item.cover_image_url
+                      : `/assets/images/neodb/cover/${media.item.cover_image_url.split("/").pop()}`
+                  }
+                  alt={media.item.title}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                />
+              </div>
+            </button>
+          ))
+        ) : (
+          <p className="col-span-full text-center text-slate-500">
+            没有找到匹配的内容
+          </p>
+        )}
+      </div>
+
+      {/* 分页控件 */}
+      {totalPages > 1 && (
+        <div className="flex flex-wrap justify-center items-center gap-2 mt-12 mb-2 p-4 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm rounded-xl shadow-sm">
+          {/* 上一页按钮 */}
+          <button
+            type="button"
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className={`px-3 py-2 rounded-lg transition-all duration-200 font-medium text-sm ${
+              currentPage === 1
+                ? "bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200 dark:bg-slate-800 dark:text-gray-500 dark:border-slate-700"
+                : "bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 hover:text-blue-600 hover:border-blue-300 dark:bg-slate-900 dark:text-slate-300 dark:border-slate-700 dark:hover:bg-slate-800 dark:hover:text-blue-400 dark:hover:border-blue-600"
+            }`}
+          >
+            上一页
+          </button>
+
+          {/* 页码按钮 */}
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            <button
+              key={page}
+              type="button"
+              onClick={() => handlePageChange(page)}
+              className={`w-8 h-8 rounded-lg transition-all duration-200 font-medium flex items-center justify-center ${
+                currentPage === page
+                  ? "bg-blue-600 text-white shadow-md transform scale-105 dark:bg-blue-500"
+                  : "bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 hover:text-blue-600 hover:border-blue-300 dark:bg-slate-900 dark:text-slate-300 dark:border-slate-700 dark:hover:bg-slate-800 dark:hover:text-blue-400 dark:hover:border-blue-600"
+              }`}
+            >
+              {page}
+            </button>
+          ))}
+
+          {/* 下一页按钮 */}
+          <button
+            type="button"
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className={`px-3 py-2 rounded-lg transition-all duration-200 font-medium text-sm ${
+              currentPage === totalPages
+                ? "bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200 dark:bg-slate-800 dark:text-gray-500 dark:border-slate-700"
+                : "bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 hover:text-blue-600 hover:border-blue-300 dark:bg-slate-900 dark:text-slate-300 dark:border-slate-700 dark:hover:bg-slate-800 dark:hover:text-blue-400 dark:hover:border-blue-600"
+            }`}
+          >
+            下一页
+          </button>
+
+          {/* 页码信息 */}
+          <span className="ml-4 text-sm text-slate-500 dark:text-slate-400 font-medium">
+            第 {currentPage} / {totalPages} 页
+          </span>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default MediaContents;

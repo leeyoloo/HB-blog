@@ -1,0 +1,30 @@
+{
+  "name": "remark-plugins",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "main": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsup --env.NODE_ENV production",
+    "dev": "tsup --watch",
+    "lint": "eslint src"
+  },
+  "dependencies": {
+    "acorn": "^8.14.1",
+    "acorn-jsx": "^5.3.2",
+    "front-matter": "^4.0.2",
+    "remark-frontmatter": "^5.0.0",
+    "remark-gfm": "^4.0.1",
+    "remark-math": "^6.0.0",
+    "slug": "^10.0.0",
+    "zod": "^3.24.4"
+  },
+  "devDependencies": {
+    "@types/slug": "^5.0.9",
+    "eslint-config-typescript": "workspace:*",
+    "tsconfig": "workspace:*",
+    "tsup": "^8.4.0",
+    "unified": "^11.0.5"
+  }
+}

@@ -1,0 +1,65 @@
+/* Waline 评论区自定义样式 */
+
+:root {
+  --waline-theme-color: #a78bfa;
+  --waline-active-color: #8b5cf6;
+  --waline-font-size: 0.9375rem;
+  --waline-border-color: #e2e8f0;
+  --waline-avatar-size: 2.5rem;
+}
+
+.dark {
+  --waline-bgcolor: transparent;
+  --waline-bgcolor-light: #1e293b;
+  --waline-bgcolor-hover: #334155;
+  --waline-color: #e2e8f0;
+  --waline-border-color: #334155;
+  --waline-disable-color: #475569;
+}
+
+/* 评论区容器 */
+#waline {
+  --waline-border: 1px solid var(--waline-border-color);
+}
+
+/* 评论卡片 */
+#waline .wl-cards .wl-card {
+  border-radius: 12px;
+  padding: 1rem;
+  transition: background-color 0.2s;
+}
+
+#waline .wl-cards .wl-card:hover {
+  background-color: rgba(167, 139, 250, 0.04);
+}
+
+.dark #waline .wl-cards .wl-card:hover {
+  background-color: rgba(167, 139, 250, 0.06);
+}
+
+/* 输入框 */
+#waline .wl-editor {
+  border-radius: 12px;
+}
+
+/* 头像 */
+#waline .wl-user img {
+  border-radius: 50%;
+}
+
+/* 提交按钮 */
+#waline .wl-btn.primary {
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+#waline .wl-btn.primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(167, 139, 250, 0.3);
+}
+
+/* 表情反应 */
+#waline .wl-reaction {
+  border-radius: 12px;
+  overflow: hidden;
+}

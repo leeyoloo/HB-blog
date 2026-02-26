@@ -1,0 +1,763 @@
+---
+title: 制作属于自己的第一本 EPUB 电子书
+date: "2026-02-05"
+lang: zh
+tags: [Sigil, 教程]
+category: epub教程
+description: 了解 EPUB 电子书格式，并使用 Sigil 制作你的第一本 EPUB 电子书。
+cover: /assets/images/make-first-epub-ebook.jpg
+layout: Post
+---
+
+<style>{`
+/* =========================================
+   主题：清雅宋韵 · 日夜双色
+   日间：宣纸底 + 墨色字 + 竹青/胭脂点缀
+   夜间：玄色底 + 月白字 + 青白/海棠点缀
+   色彩取自中国传统色谱
+   ========================================= */
+
+/* ===== 日间模式（默认） ===== */
+
+#wemd {
+  background-color: transparent;
+  padding: 20px 0;
+  max-width: 100%;
+  margin: 0 auto;
+  font-family: "Songti SC", "SimSun", "STSong", "Georgia", serif;
+  color: #1a1a1a;              /* 漆黑 — 正文主色 */
+  line-height: 1.9;
+  letter-spacing: 0.05em;
+  text-align: justify;
+  word-break: break-all;
+}
+
+#wemd p {
+  margin: 22px 0;
+  font-size: 16px;
+  color: #2b2b2b;              /* 墨色 */
+}
+
+/* --- 标题 --- */
+#wemd h1 {
+  margin-top: 50px;
+  margin-bottom: 40px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 24px;
+  color: #2d4e44;              /* 竹青 */
+  border-top: 3px double #2d4e44;
+  border-bottom: 1px solid #2d4e44;
+  padding: 20px 0;
+  line-height: 1.4;
+}
+#wemd h1 .prefix, #wemd h1 .suffix { display: none; }
+
+#wemd h2 {
+  margin-top: 45px;
+  margin-bottom: 25px;
+  text-align: center;
+  font-size: 19px;
+  font-weight: bold;
+  color: #2d4e44;              /* 竹青 */
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+}
+
+
+
+#wemd .mdx-heading__anchor {
+  position: absolute;
+  left: -2.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none !important;
+  background: transparent !important;
+  color: #8da399;
+}
+
+#wemd h2::before {
+  content: "「 ";
+  color: #8da399;              /* 浅竹青 */
+  font-weight: normal;
+  margin-right: 4px;
+}
+#wemd h2::after {
+  content: " 」";
+  color: #8da399;
+  font-weight: normal;
+  margin-left: 4px;
+}
+#wemd h2 .prefix, #wemd h2 .suffix { display: none; }
+
+#wemd h3 {
+  margin-top: 35px;
+  margin-bottom: 15px;
+  font-size: 17px;
+  font-weight: bold;
+  color: #4a4035;              /* 栗壳 */
+  padding-left: 12px;
+  border-left: 4px solid #b5a08e; /* 驼色 */
+  margin-left: 0;
+  line-height: 1.2;
+}
+#wemd h3 .prefix, #wemd h3 .suffix { display: none; }
+
+#wemd h4, #wemd h5, #wemd h6 {
+  margin-top: 25px;
+  margin-bottom: 15px;
+  font-weight: bold;
+  color: #2d4e44;
+  font-size: 16px;
+}
+
+/* --- 列表 --- */
+#wemd ul, #wemd ol {
+  margin: 16px 0;
+  padding-left: 25px;
+  color: #3b3b3b;
+}
+#wemd ul li {
+  list-style-type: circle;
+  margin-bottom: 8px;
+}
+#wemd ol li {
+  color: #2d4e44;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+#wemd ol li section {
+  color: #2b2b2b;
+  font-weight: normal;
+}
+
+/* --- 强调与修饰 --- */
+#wemd strong {
+  color: #c04851;              /* 胭脂 */
+  font-weight: bold;
+  margin: 0 2px;
+}
+#wemd em {
+  color: #5d7e6e;              /* 青竹 */
+  font-style: italic;
+}
+#wemd a {
+  color: #2d4e44;              /* 竹青 */
+  border-bottom: 1px dashed #8da399;
+  text-decoration: none;
+  font-weight: bold;
+}
+#wemd del {
+  color: #999;
+}
+
+/* --- 引用块 --- */
+#wemd blockquote {
+  margin: 25px 10px;
+  padding: 16px 20px;
+  background: rgba(45, 78, 68, 0.04); /* 竹青微底 */
+  border: 1px dashed #a4bba8;
+  border-left: 4px solid #a4bba8;
+  color: #555;
+  font-style: italic;
+  font-size: 15px;
+}
+
+/* --- 代码块 --- */
+#wemd pre {
+  margin: 20px 0;
+}
+#wemd pre code.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 15px;
+  background: #f7f4ef;        /* 宣纸色 */
+  color: #3b3b3b;
+  font-family: "Menlo", "Courier New", monospace;
+  font-size: 13px;
+  border: 1px solid #e0d5c5;  /* 素色边框 */
+  border-radius: 4px;
+  line-height: 1.6;
+}
+
+/* 代码高亮 */
+#wemd .hljs-keyword,
+#wemd .hljs-selector-tag {
+  color: #2d4e44;              /* 竹青 */
+  font-weight: bold;
+}
+#wemd .hljs-string,
+#wemd .hljs-attr {
+  color: #c04851;              /* 胭脂 */
+}
+#wemd .hljs-number {
+  color: #b78d12;              /* 赤金 */
+}
+#wemd .hljs-comment {
+  color: #999;
+  font-style: italic;
+}
+#wemd .hljs-built_in,
+#wemd .hljs-title {
+  color: #1661ab;              /* 靛蓝 */
+}
+
+/* --- 行内代码 --- */
+#wemd p code,
+#wemd li code {
+  font-family: "Menlo", "Courier New", monospace;
+  font-size: 14px;
+  color: #c04851;              /* 胭脂 */
+  background-color: rgba(192, 72, 81, 0.06);
+  padding: 2px 5px;
+  border-radius: 3px;
+  margin: 0 3px;
+}
+
+/* --- 图片 --- */
+#wemd img {
+  display: block;
+  margin: 30px auto;
+  max-width: 100%;
+  border-radius: 2px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+#wemd figcaption {
+  text-align: center;
+  color: #888;
+  font-size: 13px;
+  margin-top: 10px;
+  font-family: serif;
+}
+
+/* --- 表格 --- */
+#wemd table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 14px;
+}
+#wemd table th {
+  background-color: rgba(45, 78, 68, 0.06);
+  border: 1px solid #b5a08e;
+  padding: 8px;
+  color: #2d4e44;
+  font-weight: bold;
+}
+#wemd table td {
+  border: 1px solid #d4c8b8;
+  padding: 8px;
+  color: #3b3b3b;
+}
+
+/* --- 分隔线 --- */
+#wemd hr {
+  border: 0;
+  height: 1px;
+  background: #b5a08e;
+  margin: 40px auto;
+  width: 50%;
+  opacity: 0.5;
+}
+
+/* --- 脚注 --- */
+#wemd .footnote-word {
+  color: #2d4e44;
+  font-weight: bold;
+}
+#wemd .footnote-ref {
+  color: #2d4e44;
+  margin: 0 2px;
+}
+#wemd .footnotes-sep {
+  border-top: 1px solid #b5a08e;
+  width: 30%;
+  margin-top: 40px;
+}
+
+
+
+
+/* =========================================
+   ===== 夜间模式 (.dark) =====
+   底色：玄色 (由页面暗色背景提供)
+   文字：月白 #d6e4e2 / 素白 #c8c2b6
+   点缀：青白 #c0d8d5 / 海棠红 #f09898
+   ========================================= */
+
+.dark #wemd {
+  color: #d6e4e2;              /* 月白 — 夜间正文主色 */
+}
+
+.dark #wemd p {
+  color: #c8c2b6;              /* 素白 */
+}
+
+/* --- 标题 --- */
+.dark #wemd h1 {
+  color: #c0d8d5;              /* 青白 */
+  border-top-color: #5a8f85;   /* 铜绿 */
+  border-bottom-color: #5a8f85;
+}
+
+.dark #wemd h2 {
+  color: #c0d8d5;              /* 青白 */
+}
+.dark #wemd .mdx-heading__anchor {
+  color: #5a8f85;
+}
+.dark #wemd h2::before,
+.dark #wemd h2::after {
+  color: #5a8f85;              /* 铜绿 */
+}
+
+.dark #wemd h3 {
+  color: #c8c2b6;              /* 素白 */
+  border-left-color: #7a6e5e;  /* 黄栌 */
+}
+
+.dark #wemd h4,
+.dark #wemd h5,
+.dark #wemd h6 {
+  color: #c0d8d5;
+}
+
+/* --- 列表 --- */
+.dark #wemd ul,
+.dark #wemd ol {
+  color: #b8b2a6;
+}
+.dark #wemd ol li {
+  color: #8fbcb0;              /* 青瓷 */
+}
+.dark #wemd ol li section {
+  color: #c8c2b6;
+}
+
+/* --- 强调与修饰 --- */
+.dark #wemd strong {
+  color: #f09898;              /* 海棠红 */
+}
+.dark #wemd em {
+  color: #8fbcb0;              /* 青瓷 */
+}
+.dark #wemd a {
+  color: #8fbcb0;              /* 青瓷 */
+  border-bottom-color: #5a8f85;
+}
+.dark #wemd del {
+  color: #666;
+}
+
+/* --- 引用块 --- */
+.dark #wemd blockquote {
+  background: rgba(192, 216, 213, 0.05);
+  border-color: #4a7a70;
+  border-left-color: #5a8f85;  /* 铜绿 */
+  color: #a8a298;
+}
+
+/* --- 代码块 --- */
+.dark #wemd pre code.hljs {
+  background: #1c2333;         /* 玄青 */
+  color: #c8c2b6;
+  border-color: #2a3548;
+}
+.dark #wemd .hljs-keyword,
+.dark #wemd .hljs-selector-tag {
+  color: #8fbcb0;              /* 青瓷 */
+}
+.dark #wemd .hljs-string,
+.dark #wemd .hljs-attr {
+  color: #f09898;              /* 海棠红 */
+}
+.dark #wemd .hljs-number {
+  color: #e8c56d;              /* 缃色 (浅黄) */
+}
+.dark #wemd .hljs-comment {
+  color: #666;
+}
+.dark #wemd .hljs-built_in,
+.dark #wemd .hljs-title {
+  color: #6fa8dc;              /* 天水碧 */
+}
+
+/* --- 行内代码 --- */
+.dark #wemd p code,
+.dark #wemd li code {
+  color: #f09898;              /* 海棠红 */
+  background-color: rgba(240, 152, 152, 0.1);
+}
+
+/* --- 图片 --- */
+.dark #wemd img {
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+.dark #wemd figcaption {
+  color: #777;
+}
+
+/* --- 表格 --- */
+.dark #wemd table th {
+  background-color: rgba(143, 188, 176, 0.08);
+  border-color: #4a5a52;
+  color: #c0d8d5;
+}
+.dark #wemd table td {
+  border-color: #3a4a42;
+  color: #b8b2a6;
+}
+
+/* --- 分隔线 --- */
+.dark #wemd hr {
+  background: #5a5040;
+  opacity: 0.6;
+}
+
+/* --- 脚注 --- */
+.dark #wemd .footnote-word,
+.dark #wemd .footnote-ref {
+  color: #8fbcb0;
+}
+.dark #wemd .footnotes-sep {
+  border-top-color: #4a5a52;
+}
+`}</style>
+
+<div id="wemd">
+
+## 什么是 EPUB？
+
+EPUB（Electronic Publication）是一种自由的电子书开放标准，定义了数字出版和文档的分发以及交换格式。EPUB 格式提供了一种表现内容、打包、编码结构化和语意增强的 Web 内容（包括 HTML，CSS，SVG 和其它资源文件）的手段，以便打包成单个文件进行分发，通常是打包成 `.epub` 格式的压缩文件。
+
+EPUB 在 2007 年 9 月成为国际数字出版论坛（IDPF）的正式标准，目的是取代旧的电子书标准 Open eBook。EPUB 书籍的特点在于可以根据阅读设备的特性以及阅读器相关设置进行自动排版，以最合适的方式进行展现，进而提高用户的阅读体验。
+
+## 制作一本 EPUB 电子书
+
+### 工具介绍
+
+- **Sigil**：一款开源的多平台 EPUB 编辑器，提供了完整的 EPUB 制作功能。
+- **PageEdit**：一款开源的可视化 XHTML 编辑器，可以类似 Word 一样使用它，它会自动生成 XHTML 标签，编辑好内容后可以直接导入到 EPUB 中使用。
+
+### Sigil 编辑器界面
+
+- **图书浏览器**：文件目录，双击里面的文件可以打开进行编辑。
+- **目录和浏览**：可以实时查看生成的目录和浏览 HTML 的显示效果。
+- **文件编辑页面**：编辑 XHTML、CSS 和其它资源文件的页面。
+- **工具栏**：提供了常用工具。
+
+为方便查看交流，建议从首选项中将界面语言改为中文。
+
+### 制作步骤
+
+**1. 创建新书与了解项目结构**
+
+打开 Sigil 后，默认会创建一个空白的 EPUB 项目。在左侧的「图书浏览器」面板中，你会看到以下默认目录结构：
+
+- **Text/**：存放所有 XHTML 内容文件（章节正文、封面页等）
+- **Styles/**：存放 CSS 样式表文件
+- **Images/**：存放图片资源（封面图、插图等）
+- **Fonts/**：存放自定义字体文件（可选）
+- **Audio/**：存放音频文件（可选）
+- **Video/**：存放视频文件（可选）
+- **Misc/**：存放其它杂项资源
+
+默认会有一个 `Section0001.xhtml` 文件，这就是你的第一个内容页面。
+
+**2. 添加封面**
+
+封面是读者对电子书的第一印象，制作一个好的封面非常重要。
+
+**准备封面图片：**
+
+- 推荐尺寸（根据用途选择）：
+
+| 用途           | 宽 × 高（px） | 说明                     |
+| -------------- | ------------- | ------------------------ |
+| 书架封面       | 1525 × 2140   | 阅读器书架展示用，最常见 |
+| Kindle 封面    | 1536 × 2048   | 适配 Kindle 设备         |
+| 手机全面屏封面 | 1080 × 2400   | 适配手机竖屏全面屏显示   |
+| 平板封面       | 1536 × 2048   | 适配 iPad 等平板设备     |
+
+- 格式：JPG 或 PNG
+- 文件大小：建议控制在 500KB 以内，避免电子书体积过大
+- 分辨率：300dpi 为佳，至少 150dpi
+
+**在 Sigil 中添加封面：**
+
+1. 点击菜单栏：**工具** → **添加封面**
+2. 在弹出的对话框中选择你准备好的封面图片
+3. 图片会被自动复制到 `Images` 文件夹下
+4. 同时在 `Text` 文件夹下会自动生成 `cover.xhtml` 文件
+
+Sigil 自动生成的 `cover.xhtml` 文件内容主要包含一个布局的 `div` 块标签、`svg` 矢量图标签和一个 `image` 图像标签。这种结构可以让封面图片在不同尺寸的阅读器上自适应显示。
+
+> 如果你想自定义封面页的布局（比如添加书名文字叠加），可以直接编辑 `cover.xhtml` 的代码。
+
+**3. 编写文章内容**
+
+这是制作电子书最核心的步骤。你可以根据自己的习惯选择不同的编写方式。
+
+**方式一：直接在 Sigil 中编写 XHTML 代码**
+
+这是最灵活的方式，适合有一定 HTML 基础的用户。
+
+1. 在图书浏览器的 `Text` 文件夹上右键 → **添加空白 HTML 文件**
+2. 双击新建的文件打开编辑
+3. 在代码视图中编写 XHTML 内容
+
+每个 XHTML 文件代表电子书中的一个章节或一个页面。建议按章节拆分文件，比如：
+
+- `chapter01.xhtml` — 第一章
+- `chapter02.xhtml` — 第二章
+- 以此类推
+
+**方式二：使用 PageEdit 可视化编辑**
+
+PageEdit 是 Sigil 的配套工具，提供了类似 Word 的所见即所得编辑体验。
+
+1. 在 PageEdit 中像使用 Word 一样编辑内容
+2. 它会自动生成符合 EPUB 规范的 XHTML 代码
+3. 编辑完成后，将文件保存并导入到 Sigil 的 `Text` 文件夹中
+
+**方式三：从 Word 文档转换**
+
+如果你已经有写好的 Word 文档：
+
+1. 在 Microsoft Word 中打开文档
+2. 点击 **文件** → **另存为**
+3. 在保存类型中选择 **网页（.htm, .html）** 或 **筛选过的网页（.htm）**
+4. 保存后，在 Sigil 中通过 **文件** → **打开** 直接打开这个 HTML 文件
+5. Sigil 会自动将其转换为 EPUB 格式
+
+> 推荐选择「筛选过的网页」，它会去除 Word 特有的冗余标签，生成更干净的 HTML 代码。
+
+**方式四：使用 LibreOffice**
+
+LibreOffice 是免费开源的办公套件，操作方式与 Word 类似，同样支持导出为 HTML 格式。
+
+**文件组织建议：**
+
+- 每个章节使用独立的 XHTML 文件，方便管理和调整顺序
+- 文件命名使用有意义的名称或编号，如 `ch01-introduction.xhtml`
+- 图片统一放在 `Images` 文件夹下，在 XHTML 中通过相对路径引用：`<img src="../Images/photo.jpg" alt="描述" />`
+
+**4. 添加 CSS 样式**
+
+为了让电子书排版更加美观，我们需要定义 CSS 样式。好的排版能显著提升阅读体验。
+
+**创建样式表：**
+
+1. 在图书浏览器的 `Styles` 文件夹上右键 → **添加空白样式表**
+2. 将文件命名为 `style.css`
+3. 添加以下常用样式：
+
+```css
+/* 首行缩进 */
+p {
+  text-indent: 2em;
+  line-height: 1.9;
+  margin: 22px 0;
+  color: #3e3c3a;
+}
+
+/* 标题样式 */
+h1 {
+  margin-top: 50px;
+  margin-bottom: 40px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 24px;
+  color: #2d4e44;
+  border-top: 3px double #2d4e44;
+  border-bottom: 1px solid #2d4e44;
+  padding: 20px 0;
+}
+
+h2 {
+  margin-top: 45px;
+  margin-bottom: 25px;
+  text-align: center;
+  font-size: 19px;
+  font-weight: bold;
+  color: #2d4e44;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+h2::before {
+  content: "「 ";
+  color: #8da399;
+  font-weight: normal;
+}
+
+h2::after {
+  content: " 」";
+  color: #8da399;
+  font-weight: normal;
+}
+```
+
+然后，在每个 XHTML 文件的 `<head>` 中引入样式表，并编写内容。以下是一个完整的章节文件示例：
+
+```html
+<head>
+  <title>第一章 示例章节</title>
+  <link href="../Styles/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+  <h1>第一章 示例章节</h1>
+  <p>
+    这是第一段内容。通过设置 CSS 的 text-indent
+    属性，我们可以实现首行缩进的效果，这符合中文书籍的排版习惯。
+  </p>
+  <p>这是第二段内容。统一的行高和段间距能让阅读体验更加舒适。</p>
+</body>
+```
+
+**5. 编辑元数据**
+
+元数据是电子书的"身份证"，阅读器会根据这些信息来展示书籍详情。
+
+点击工具栏上的 **元数据编辑器** 按钮（快捷键 F8），可以编辑以下信息：
+
+**必填项：**
+
+- **Title（标题）**：书籍的正式名称，会显示在阅读器的书架和详情页
+- **Creator（作者）**：作者姓名，可以添加多个作者
+- **Language（语言）**：书籍的语言代码，中文填 `zh-CN`，英文填 `en`
+
+**推荐填写：**
+
+- **Publisher（出版者）**：出版方名称，个人制作可以填自己的名字或笔名
+- **Date（日期）**：出版日期，格式为 `YYYY-MM-DD`
+- **Description（简介）**：书籍的内容简介，部分阅读器会展示
+- **Subject（主题/分类）**：书籍的分类标签，如「小说」「技术」「历史」等
+- **Rights（版权声明）**：版权信息，如「版权所有 © 2026 作者名」
+
+> 元数据虽然不影响阅读内容，但完善的元数据能让你的电子书在各种阅读器和管理工具（如 Calibre）中更好地被识别和分类。
+
+**6. 生成目录**
+
+EPUB 的目录（Table of Contents）是读者导航全书的关键，通常由 `toc.ncx` 和 `nav.xhtml` 文件控制。Sigil 可以根据 HTML 标题标签自动生成目录。
+
+**前提条件：**
+
+在生成目录之前，请确保你的所有章节文件中已正确使用了 HTML 标题标签：
+
+```html
+<h1>第一章 标题</h1>
+<!-- 一级标题，通常用于章名 -->
+<h2>第一节 小标题</h2>
+<!-- 二级标题，用于节名 -->
+<h3>1.1 更细的分节</h3>
+<!-- 三级标题，按需使用 -->
+```
+
+> 注意：标题层级要保持一致，不要跳级（比如从 H1 直接到 H3）。大多数阅读器只识别到 H3 级别。
+
+**生成步骤：**
+
+1. 点击菜单栏：**工具 → 目录 → 生成目录**（快捷键 `Ctrl+T` / `Cmd+T`）
+2. Sigil 会弹出目录编辑窗口，自动扫描所有文件中的标题标签
+3. 在列表中勾选你想要出现在目录中的条目，取消不需要的
+4. 点击「确定」，Sigil 会自动更新 `toc.ncx` 文件
+
+**手动调整技巧：**
+
+- 如果某些标题不想出现在目录中，可以在生成前将其改为普通加粗文本（`<strong>`）而非标题标签
+- 生成后可以在「书籍浏览器」面板中双击 `toc.ncx` 手动编辑目录文本
+- 如果章节顺序不对，先在左侧「书籍浏览器」中拖拽调整文件顺序，再重新生成目录
+
+**7. 添加自定义字体（可选）**
+
+默认情况下，EPUB 会使用阅读器内置字体。如果你想让电子书有独特的排版风格，可以嵌入自定义字体。
+
+**添加字体文件：**
+
+1. 在「书籍浏览器」面板中右键点击 **Fonts** 文件夹
+2. 选择「添加已有文件」，导入 `.ttf` 或 `.otf` 字体文件
+3. 推荐使用开源字体，如思源宋体（Noto Serif CJK）、霞鹜文楷等
+
+**在 CSS 中引用字体：**
+
+```css
+@font-face {
+  font-family: "MyCustomFont";
+  src: url("../Fonts/MyCustomFont.ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: "MyCustomFont", serif;
+}
+```
+
+> 提示：嵌入字体会增加文件体积。如果字体文件较大（>5MB），建议使用 [FontTools](https://github.com/fonttools/fonttools) 进行子集化（subsetting），只保留书中用到的字符，可以大幅减小体积。
+
+**8. 验证与保存**
+
+在保存最终文件之前，务必进行验证，确保 EPUB 符合标准规范。
+
+**验证步骤：**
+
+1. 点击工具栏上的 **验证 EPUB** 按钮（绿色对勾图标），或使用菜单：**工具 → 验证 EPUB**
+2. Sigil 内置的 FlightCrew 验证器会检查文件结构、元数据完整性和 HTML 语法
+3. 验证结果会显示在底部面板中，双击错误条目可以直接跳转到问题位置
+
+**常见验证错误及解决方法：**
+
+| 错误类型   | 说明                           | 解决方法                                |
+| ---------- | ------------------------------ | --------------------------------------- |
+| 未闭合标签 | HTML 标签没有正确关闭          | 找到对应标签，补上闭合标签如 `</p>`     |
+| 缺少元数据 | 必填的元数据字段为空           | 在元数据编辑器中补充 Title、Language 等 |
+| 图片未引用 | 图片文件存在但未被任何页面使用 | 删除多余图片或在内容中引用它            |
+| 无效的 NCX | 目录文件结构有误               | 重新生成目录（工具 → 目录 → 生成目录）  |
+
+**保存文件：**
+
+1. 确认验证通过（0 个错误）后，点击 **文件 → 保存**（`Ctrl+S` / `Cmd+S`）
+2. 文件将保存为 `.epub` 格式
+3. 建议同时使用「另存为」保留一个备份副本
+
+**9. 测试阅读效果**
+
+制作完成后，强烈建议在不同设备和阅读器上测试，确保排版效果符合预期。
+
+**桌面端测试：**
+
+- **Calibre**：功能最全面的电子书管理工具，内置阅读器支持 EPUB，还可以转换为其他格式
+- **Sigil 预览**：在 Sigil 中直接使用「预览」面板查看效果（视图 → 预览）
+
+**移动端测试：**
+
+- **Apple Books**（iOS/macOS）：苹果设备自带，对 EPUB 标准支持完善，渲染效果优秀
+- **阅微**（Android/iOS）：界面简洁清爽，支持 EPUB/TXT 等多种格式，对精排样式支持多，强烈推荐 ⭐
+- **多看阅读**（Android/iOS）：老牌阅读器，对中文排版支持好，但较新的 CSS 属性支持比较少
+
+**电子墨水屏测试：**
+
+- **Kindle**：需要先用 Calibre 转换为 `.mobi` 或 `.azw3` 格式
+- **文石 BOOX / 掌阅 iReader**：原生支持 EPUB，直接传输即可
+
+> 不同阅读器对 CSS 的支持程度不同，测试时重点关注：字体显示、图片缩放、目录跳转、段落间距等。
+
+### 搞定！
+
+恭喜你，你的第一本 EPUB 电子书已经制作完成了 🎉
+
+从创建项目、编写内容、设置样式，到添加元数据、生成目录、验证保存，你已经掌握了 EPUB 制作的完整流程。现在你可以把它传到手机、平板或电子阅读器上，享受自己亲手制作的电子书带来的成就感。
+
+如果你想进一步提升，可以探索：
+
+- 使用 **Calibre** 批量转换格式（EPUB → MOBI/PDF/AZW3）
+- 学习 **EPUB 3** 标准，支持音视频、交互式内容
+- 尝试用 **Pandoc** 从 Markdown 自动生成 EPUB
+
+</div>
