@@ -6,7 +6,7 @@ backend:
   repo: leeyoloo/HB-blog
   branch: main
   base_url: https://decap-oauth.2421526176.workers.dev
-  auth_type: implicit
+  auth_endpoint: auth
 
 media_folder: "apps/gkBlog/public/assets/images/blog"
 public_folder: "/assets/images/blog"
