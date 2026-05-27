@@ -1,0 +1,108 @@
+# Decap CMS 配置
+# leeyoloblog.pages.dev
+
+backend:
+  name: github
+  repo: leeyoloo/HB-blog
+  branch: main
+  base_url: https://decap-oauth.2421526176.workers.dev
+  auth_type: implicit
+
+publish_mode: editorial_workflow  # 可选：开启草稿/审核/发布三阶段工作流
+
+media_folder: "apps/gkBlog/public/assets/images/blog"
+public_folder: "/assets/images/blog"
+
+collections:
+  - name: "blog"
+    label: "博客文章"
+    folder: "apps/gkBlog/src/pages/blog"
+    create: true
+    slug: "{{slug}}"
+    path: "{{slug}}/index"
+    media_folder: ""
+    public_folder: ""
+    nested:
+      depth: 1
+    fields:
+      - label: "标题"
+        name: "title"
+        widget: "string"
+      - label: "发布日期"
+        name: "date"
+        widget: "datetime"
+        date_format: "YYYY-MM-DD"
+        time_format: false
+        format: "YYYY-MM-DD"
+      - label: "语言"
+        name: "lang"
+        widget: "select"
+        options:
+          - label: "简体中文"
+            value: "zh"
+          - label: "English"
+            value: "en"
+        default: "zh"
+      - label: "标签"
+        name: "tags"
+        widget: "list"
+        allow_add: true
+      - label: "分类"
+        name: "category"
+        widget: "string"
+        required: false
+      - label: "描述"
+        name: "description"
+        widget: "text"
+        required: false
+      - label: "封面图"
+        name: "cover"
+        widget: "image"
+        required: false
+        media_library:
+          config:
+            max_file_size: 5120000
+      - label: "布局"
+        name: "layout"
+        widget: "hidden"
+        default: "Post"
+      - label: "正文"
+        name: "body"
+        widget: "markdown"
+        buttons:
+          - bold
+          - italic
+          - code
+          - link
+          - heading-two
+          - heading-three
+          - quote
+          - bulleted-list
+          - numbered-list
+          - image
+        editor_components:
+          - image
+
+  - name: "pages"
+    label: "页面"
+    files:
+      - name: "recommend"
+        label: "推荐页"
+        file: "apps/gkBlog/src/pages/recommend.mdx"
+        fields:
+          - label: "标题"
+            name: "title"
+            widget: "string"
+          - label: "正文"
+            name: "body"
+            widget: "markdown"
+      - name: "tools"
+        label: "工具页"
+        file: "apps/gkBlog/src/pages/tools.mdx"
+        fields:
+          - label: "标题"
+            name: "title"
+            widget: "string"
+          - label: "正文"
+            name: "body"
+            widget: "markdown"
