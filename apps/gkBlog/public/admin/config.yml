@@ -69,19 +69,6 @@ collections:
       - label: "正文"
         name: "body"
         widget: "markdown"
-        buttons:
-          - bold
-          - italic
-          - code
-          - link
-          - heading-two
-          - heading-three
-          - quote
-          - bulleted-list
-          - numbered-list
-          - image
-        editor_components:
-          - image
 
   - name: "pages"
     label: "页面"
