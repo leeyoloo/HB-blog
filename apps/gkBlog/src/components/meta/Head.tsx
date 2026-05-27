@@ -19,7 +19,7 @@ function Head({
 }: HeadProps) {
   const currentUrl = useCurrentUrl();
 
-  const htmlTitle = overrideTitle ? title : `${title} — 蠢卷栖萤`;
+  const htmlTitle = overrideTitle ? title : `${title} — leeyolo的博客空间`;
 
   return (
     <NextHead>

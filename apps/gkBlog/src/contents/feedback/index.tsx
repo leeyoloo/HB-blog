@@ -36,7 +36,7 @@ function MessagesContents() {
       const list = Array.isArray(data?.data) ? data.data : [];
       setComments(
         list.map((c: any) => ({
-          id: c.objectId || c._id || String(Math.random()),
+          id: c.objectId || c.id || String(Math.random()),
           nick: c.nick || "匿名",
           commentText: (c.comment || c.orig || "").replace(/<[^>]*>/g, ""),
           avatar: c.avatar,

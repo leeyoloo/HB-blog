@@ -25,7 +25,7 @@ function HeaderTitle() {
         animate={animation.show}
         transition={{ delay: 0.1 }}
       >
-        这里是蠢卷栖萤的世界
+        这里是leeyolo的博客空间
       </m.div>
       <span className={clsx("text-slate-700", "dark:text-slate-300")}>
         <m.span
@@ -38,7 +38,7 @@ function HeaderTitle() {
           transition={{ delay: 0.2 }}
         >
           <strong className={clsx("text-accent-600", "dark:text-accent-500")}>
-            蠢卷栖萤
+            leeyolo的博客空间
           </strong>
         </m.span>
         <m.h1

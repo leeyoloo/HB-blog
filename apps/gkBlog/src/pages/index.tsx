@@ -10,18 +10,18 @@ function Index() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "蠢卷栖萤",
+    name: "leeyolo的博客空间",
     description:
-      "记录日常学习与开发中的点滴收获。分享编程实践、学习笔记和个人感悟，希望与同行共同进步，一起探索技术世界。",
+      "leeyolo的个人博客，记录技术学习、开发实践与生活感悟。",
     url: "https://example.com/",
     publisher: {
       "@type": "Person",
-      name: "蠢卷栖萤",
+      name: "leeyolo",
       url: "https://example.com/about-me",
     },
     author: {
       "@type": "Person",
-      name: "蠢卷栖萤",
+      name: "leeyolo",
       url: "https://example.com/about-me",
     },
     sameAs: [],
@@ -35,8 +35,8 @@ function Index() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Head
-        title="蠢卷栖萤"
-        description="蠢卷栖萤，记录日常学习与开发中的点滴收获。分享编程实践、学习笔记和个人感悟，希望与同行共同进步，一起探索技术世界。"
+        title="leeyolo的博客空间"
+        description="leeyolo的个人博客，记录技术学习、开发实践与生活感悟。"
         ogImage={`${baseUrl}/assets/images/og-image.png`}
         overrideTitle
       />

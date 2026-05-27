@@ -24,7 +24,7 @@ function Logo({ active = false }: LogoProps) {
       </div>
       <div className={clsx("-mt-1 hidden text-xl", "sm:block")}>
         <span className={clsx("text-accent-600", "dark:text-accent-500")}>
-          蠢卷栖萤
+          leeyolo的博客空间
         </span>
       </div>
     </div>

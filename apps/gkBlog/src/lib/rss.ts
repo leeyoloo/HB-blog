@@ -4,8 +4,8 @@ import { getSortedPosts } from "./posts";
 
 const generateRSSFeed = () => {
   const feed = new RSS({
-    title: "My Blog", // 你的博客名称
-    description: "A blogger who loves reading and sharing", // 你的博客描述
+    title: "leeyolo的博客空间", // 你的博客名称
+    description: "leeyolo的个人博客，记录技术学习、开发实践与生活感悟。", // 你的博客描述
     feed_url: "https://example.com/rss.xml", // 这里填写你站点的 RSS 链接
     site_url: "https://example.com", // 你的站点首页 URL
     image_url: "https://example.com/favicon.ico", // 你的站点 logo 图片 URL

@@ -85,8 +85,8 @@ export const getPostStructuredData = ({
   author: [
     {
       "@type": "Person",
-      name: "蠢卷栖萤",
-      jobTitle: "图书爱好者",
+      name: "leeyolo",
+      jobTitle: "开发者",
       url: "https://example.com/",
     },
   ],
