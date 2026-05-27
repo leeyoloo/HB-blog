@@ -8,8 +8,6 @@ backend:
   base_url: https://decap-oauth.2421526176.workers.dev
   auth_type: implicit
 
-publish_mode: editorial_workflow  # 可选：开启草稿/审核/发布三阶段工作流
-
 media_folder: "apps/gkBlog/public/assets/images/blog"
 public_folder: "/assets/images/blog"
 
@@ -22,8 +20,6 @@ collections:
     path: "{{slug}}/index"
     media_folder: ""
     public_folder: ""
-    nested:
-      depth: 1
     fields:
       - label: "标题"
         name: "title"
@@ -59,9 +55,6 @@ collections:
         name: "cover"
         widget: "image"
         required: false
-        media_library:
-          config:
-            max_file_size: 5120000
       - label: "布局"
         name: "layout"
         widget: "hidden"
@@ -69,27 +62,3 @@ collections:
       - label: "正文"
         name: "body"
         widget: "markdown"
-
-  - name: "pages"
-    label: "页面"
-    files:
-      - name: "recommend"
-        label: "推荐页"
-        file: "apps/gkBlog/src/pages/recommend.mdx"
-        fields:
-          - label: "标题"
-            name: "title"
-            widget: "string"
-          - label: "正文"
-            name: "body"
-            widget: "markdown"
-      - name: "tools"
-        label: "工具页"
-        file: "apps/gkBlog/src/pages/tools.mdx"
-        fields:
-          - label: "标题"
-            name: "title"
-            widget: "string"
-          - label: "正文"
-            name: "body"
-            widget: "markdown"
